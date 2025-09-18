@@ -34,7 +34,7 @@ const jobs = [
   {
     id: 5,
     title: "Network Administrator",
-    department: "IT Infrastructure",
+    department: "IT",
     location: "Bloemfontein",
     salary: "R38,000/month",
   },
@@ -59,6 +59,35 @@ const jobs = [
     location: "Nelspruit",
     salary: "R48,000/month",
   },
+  {
+  id: 9,
+  title: "Human Resources Officer",
+  department: "Human Resources",
+  location: "Cape Town",
+  salary: "R35,000/month",
+},
+{
+  id: 10,
+  title: "IT Support Technician",
+  department: "IT",
+  location: "Durban",
+  salary: "R28,000/month",
+},
+{
+  id: 11,
+  title: "Marketing Coordinator",
+  department: "Marketing",
+  location: "Johannesburg",
+  salary: "R32,500/month",
+},
+{
+  id: 12,
+  title: "Operations Manager",
+  department: "Operations",
+  location: "Port Elizabeth",
+  salary: "R55,000/month",
+}
+
 ];
 
 export default function App() {
@@ -89,9 +118,10 @@ export default function App() {
 
         <div
           style={{
-            backgroundColor: "#f5f5f5",
+            //backgroundColor: "red",
             padding: "2rem",
-            marginLeft:"10%"
+            marginLeft:"10%",
+            width:"80%"
           }}
         >
           <h1 style={{

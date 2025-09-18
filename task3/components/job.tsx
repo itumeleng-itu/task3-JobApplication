@@ -18,31 +18,35 @@ type JobDetails = {  //details of a job
 const isApproved = () => Math.random() >= 0.5;  //randomly approving or rejecting applications
 
 export default function Job({ id, title, department, location, salary }: JobProps) {  //passing props into a function
-  const [job, setJob] = useState<JobDetails>({
-    name: "",
-    date: new Date(),
-    approved: isApproved(),
+  const [applications, setApplications] = useState<JobDetails[]>(() => {
+    // Load existing applications from localStorage
+    const saved = localStorage.getItem('jobApplications');
+    return saved ? JSON.parse(saved) : [];
   });
-const myJobs=[];
-  const clickHandler = () => {  //what happens after i click the apply button
-    setJob({ name: title, date: new Date(), approved: isApproved() });
-    alert(`Applied for: ${title}`);
-    console.log(job);
-    myJobs.push(job);
 
+  const clickHandler = () => {  //what happens after i click the apply button
+    const newApplication = { name: title, date: new Date(), approved: isApproved() };
+    
+    // Update applications list and save to localStorage
+    const updatedApplications = [...applications, newApplication];  //adding a new application inside updated applications
+    setApplications(updatedApplications);
+    localStorage.setItem('jobApplications', JSON.stringify(updatedApplications));
+    
+    alert(`Applied for: ${title}. Application ${newApplication.approved ? 'Approved!' : 'Pending Review'}`);
     
   };
 
   return (
     <div style={{
         border:"1px solid #fff",
-        borderRadius:"15px",
+        borderRadius:"25px",
         margin:"6px",
         padding:"30px",
         boxShadow:"1px 1px 5px black",
         color:"black",
         textAlign:"start",
         width:"250px",
+        //backgroundColor:"red"
         
     }}>
 
@@ -50,13 +54,11 @@ const myJobs=[];
             display:"flex",
         }}>
             <div style={{
-                border:"3px solid black",
+                border:"3px solid gray",
                 justifySelf:"start",
                 borderRadius:"35px",
                 width:"55px",
                 height:"auto",
-                alignContent:"center",
-                justifyContent:"center",
 
             }}><p style={{
                 textAlign:"center",
@@ -70,8 +72,14 @@ const myJobs=[];
         </div>
         <hr></hr>
       <p>
-        <p>Job Title: <strong>{title}</strong></p>
-        <p>Department: <strong>{department}</strong></p> 
+        <p><strong>{title}</strong></p>
+        <strong style={{
+          border:"1px solid gray",
+          borderRadius:"4px",
+          backgroundColor:"gray",
+          display:"inline",
+          padding:"0px 4px"
+        }}>{department}</strong>
 
       </p>
       <hr></hr>

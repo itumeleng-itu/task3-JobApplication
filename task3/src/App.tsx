@@ -1,17 +1,23 @@
-//import { useState } from 'react'
-import './App.css'
-//import Login from '../components/login'
-import AddJob from "../components/addJob"
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Login from '../components/login';
+import Signup from '../components/signup';
+import AddJob from "../components/addJob";
+import History from "../components/history";
+import Dashboard from "../components/profile"
 
 function App() {
-  //const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <AddJob />
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/jobs" element={<AddJob />} />
+        <Route path="/profile" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/history" element={<History />} />
+      </Routes>
+    </Router>
   )
 }
 

@@ -1,16 +1,18 @@
-import React from "react"
-import Button from "./button"
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import Button from "./button";
 
-export default function Sidebar(){
+export default function Sidebar() {
+    const navigate = useNavigate();
 
-    const clicked =() =>{
-        alert("clicked")
-    }
+    const data = localStorage.getItem("signInData");
+
+    if(!data) return ;
+    const myData = JSON.parse(data);
+    const date = new Date(); 
     return (
-        <div
-          
-        >
-          <h2>Sidebar</h2>
+        <div>
+          <h3><i>Hi, {myData.name}, current date & time : {date.toLocaleString()}</i></h3>
           <div style={{
             display:"grid",
             gridTemplateColumns:"1fr",
@@ -18,10 +20,10 @@ export default function Sidebar(){
             marginTop:"30%",
             gap:"1em"
           }}>
-            <Button name="stunna" onClick={clicked} />
-            <Button name="stunna" onClick={clicked}/>
-            <Button name="stunna" onClick={clicked}/>
-            <Button name="stunna" onClick={clicked}/>
+            <Button name="JOBS" onClick={() => navigate("/jobs")} />
+            <Button name="APPLICATION HISTORY" onClick={() => navigate("/history")} />
+            <Button name="PROFILE" onClick={() => navigate("/profile")} />
+            <Button name="SETTINGS" onClick={() => navigate("/settings")} />
           </div>
         </div>
     )
