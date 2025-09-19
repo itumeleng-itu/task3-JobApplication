@@ -13,7 +13,7 @@ export default function History() {
   useEffect(() => {
     const savedApps = localStorage.getItem('jobApplications');
     if (savedApps) {
-      const apps = JSON.parse(savedApps).map((app) => ({
+      const apps = JSON.parse(savedApps).map((app:any) => ({
         ...app,
         date: new Date(app.date),
       }));

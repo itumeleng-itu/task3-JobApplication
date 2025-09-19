@@ -5,6 +5,8 @@ import Signup from '../components/signup';
 import AddJob from "../components/addJob";
 import History from "../components/history";
 import Dashboard from "../components/profile"
+import UserDetails from "../components/addDetails"
+import MyJobs from "../components/myJobs"
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/profile" element={<Dashboard />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/history" element={<History />} />
+        <Route path="/addDetails" element={<UserDetails />} />
+        <Route path="/myJobs" element={<MyJobs />} />
       </Routes>
     </Router>
   )

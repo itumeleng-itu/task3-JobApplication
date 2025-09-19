@@ -43,7 +43,15 @@ export default function Sidebar() {
                     onClick={() => navigate("/profile")}
                 />
                 <Button
-                    name="JOBS"
+                    name="UPLOAD DETAILS"
+                    onClick={() => navigate("/addDetails")}
+                />
+                <Button
+                    name="MY JOBS"
+                    onClick={() => navigate("/myJobs")}
+                />
+                <Button
+                    name="ALL JOBS"
                     onClick={() => navigate("/jobs")}
                 />
                 <Button
