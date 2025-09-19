@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 
@@ -123,6 +123,11 @@ import { useNavigate } from "react-router-dom";
             border:'1px solid rgba(255, 255, 255, 0.2)',
           }}>
         LogIn</button>
+        <hr></hr>
+        <p style={{
+            textAlign:"center"
+        }}> Not a member? <Link to="/signup" style={{textDecoration:"none", color:"grey"}}>SignUp</Link>
+        </p>
         </form>
       </div>
     </div>

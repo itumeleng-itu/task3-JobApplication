@@ -1,6 +1,6 @@
 import React from 'react' ;
 import { useState, type ChangeEvent, type FormEvent } from "react"
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 //import Button from "./button"
 
 {/* Account details properties */}
@@ -159,6 +159,11 @@ export default function Signup() {
             border:'1px solid rgba(255, 255, 255, 0.2)',
           }}>
         SignUp</button>
+        <hr></hr>
+        <p style={{
+            textAlign:"center",
+        }}> Already a member? <Link to="/login" style={{textDecoration:"none", color:"grey"}}>Login</Link>
+        </p>
         </form>
       </div>
     </div>

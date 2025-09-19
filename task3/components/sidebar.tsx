@@ -51,10 +51,6 @@ export default function Sidebar() {
                     onClick={() => navigate("/history")}
                 />
                 <Button
-                    name="SETTINGS"
-                    onClick={() => navigate("/settings")}
-                />
-                <Button
                     name="LOGOUT"
                     onClick={() => navigate("/login")}
                 />
