@@ -197,14 +197,10 @@ export default function MyJobs() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     function findJob() {
-        const lowerSearch = depart.toLowerCase();
-        const lowSearch = location.toLowerCase()
         const results = jobs.filter((job) =>
-          job.department.toLowerCase().includes(lowerSearch) ||
-          job.location.toLowerCase().includes(lowerSearch) ||
-          job.department.toLowerCase().includes(lowSearch) ||
-          job.location.toLowerCase().includes(lowSearch) 
-        );
+            job.department.toLowerCase().includes(depart.toLowerCase()) ||
+            job.location.toLowerCase().includes(location.toLowerCase())
+          );
         console.log(results)
         setFilteredJobs(results);
       }
