@@ -7,6 +7,7 @@ import History from "../components/history";
 import Dashboard from "../components/profile"
 import UserDetails from "../components/addDetails"
 import MyJobs from "../components/myJobs"
+import FileNotFound from "../components/404"
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/history" element={<History />} />
         <Route path="/addDetails" element={<UserDetails />} />
         <Route path="/myJobs" element={<MyJobs />} />
+        <Route path="/404" element={<FileNotFound/>}/>
       </Routes>
     </Router>
   )
