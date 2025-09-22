@@ -1,13 +1,13 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Login from '../components/login';
-import Signup from '../components/signup';
-import AddJob from "../components/addJob";
-import History from "../components/history";
-import Dashboard from "../components/profile"
-import UserDetails from "../components/addDetails"
-import MyJobs from "../components/myJobs"
-import FileNotFound from "../components/404"
+import Login from '../pages/login';
+import Signup from '../pages/signup';
+import AddJob from "../pages/addJob";
+import History from "../pages/history";
+import Dashboard from "../pages/profile"
+import UserDetails from "../pages/addDetails"
+import MyJobs from "../pages/myJobs"
+import FileNotFound from "../pages/404"
 
 function App() {
   return (

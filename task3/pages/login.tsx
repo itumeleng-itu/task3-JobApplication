@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
+import AutoAlert from "../src/components/ui/auto-dismiss"
+import { Progress } from "@/components/ui/progress"
 
 
 
@@ -33,7 +35,10 @@ import { useNavigate, Link } from "react-router-dom";
       else if(savedUserData.password !== userData.password){
       alert("invalid username")
       }
-      nav("/profile")
+      else{
+      nav("/profile");
+      <AutoAlert message= "You have logged in " duration={3000} />
+      }
     }
     
     return(
@@ -121,6 +126,7 @@ import { useNavigate, Link } from "react-router-dom";
             backdropFilter: 'blur(10px)',
             backgroundColor: 'rgba(0, 0, 0, 1)',
             border:'1px solid rgba(255, 255, 255, 0.2)',
+            
           }}>
         LogIn</button>
         <hr></hr>

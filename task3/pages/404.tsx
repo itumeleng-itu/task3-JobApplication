@@ -6,7 +6,7 @@ export default function FileNotFound(){
         <div style={{ 
             textAlign: 'center',
             padding: '50px',
-            backgroundColor:"grey",
+            backgroundColor:"#000",
             position:"absolute",
             left:"40%",
             top:"30%",

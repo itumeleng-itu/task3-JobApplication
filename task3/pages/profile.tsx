@@ -1,9 +1,18 @@
 import React from 'react';
 import uiImg from "../media/ui.jpg";
 import Sidebar from "./sidebar"
+import AutoAlert from "../src/components/ui/auto-dismiss"
+
 
 export default function Dashboard() {
+    console.log(<AutoAlert message= "You have logged in " duration={3000} />);
+    
+    
     return (
+        <>
+        <div>
+            <AutoAlert message= "You have logged in " duration={3000} />
+        </div>
         <div style={{
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
@@ -126,5 +135,6 @@ export default function Dashboard() {
             </div>
         </div>
         </div>
+        </>
     );
 }
