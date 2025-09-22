@@ -99,7 +99,7 @@ export default function UserDetails() {
             />
 
             <div style={{ margin: "8px 0" }}>
-              <label>Male</label>
+              <label className="ml-4 p-2">Male</label>
               <input
                 type="radio"
                 name="gender"
@@ -108,7 +108,7 @@ export default function UserDetails() {
                 checked={userData.gender === "male"}
                 onChange={handleChange}
               />
-              <label style={{ marginLeft: "10px" }}>Female</label>
+              <label className="ml-4 p-2">Female</label>
               <input
                 type="radio"
                 name="gender"
@@ -150,11 +150,13 @@ export default function UserDetails() {
 }
 
 const inputStyle = {
-  width: "90%",
+  width: "100%",
   padding: "10px",
   margin: "8px 0",
   borderRadius: "10px",
   border: "1px solid #ccc",
+  backgroundColor:"black",
+  color:"white"
 };
 
 const buttonStyle = {

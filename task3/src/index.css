@@ -8,11 +8,10 @@
   line-height: 1.5;
   font-weight: 500;
 
-  color-scheme: light dark;
   color: rgba(0, 0, 0, 0.87);
-  background-color: #f5f5f5;
+  background-color: #130d0d;
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --background: oklch(13.181% 0.01223 18.77);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);

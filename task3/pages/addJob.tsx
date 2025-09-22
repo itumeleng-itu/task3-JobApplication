@@ -196,101 +196,51 @@ export default function App() {
   }
 
   return (
-    <>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 3fr",
-          height: "100vh",
-        }}
-      >
-        <div style={{
-            backgroundColor: "black",
-            color: "white",
-            padding: "1rem",
-            position: "relative",
-            top: 0,
-            height: "100%",
-            textAlign:"center",
-            border:"1px solid black",
-            width: "100%",
-            boxSizing: "border-box"
-          }}>
-            <Sidebar />
+    <div className="min-h-screen bg-white">
+    <div className="fixed top-0 left-0 h-screen w-75 bg-black text-white p-5 hidden md:flex flex-col border-r border-black">
+      <Sidebar />
+    </div>
+
+    <div className="md:ml-100 p-10 md:p-10">
+      <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">
+        Available Jobs
+      </h1>
+
+        <div className="flex justify-center mb-6 gap-2">
+          <input
+            type="search"
+            placeholder="Location, title, or department"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && findJob()}
+            className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          />
+          <img
+            src={searchImg}
+            alt="search"
+            onClick={findJob}
+            className="w-6 h-6 cursor-pointer"
+          />
         </div>
 
-        <div
-          style={{
-            padding: "2rem",
-            marginLeft:"0",
-          }}
-        >
-          <h1 style={{
-            textAlign:"center",
-            color:"black",
-            fontWeight:"800"
-          }}>Available Jobs</h1>
-          <div style={{
-                marginLeft:"45%",
-                marginBottom:"2%",
-                color:"black"
-            }}>
-            <input 
-              type="search" 
-              placeholder="location, title, or department" 
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && findJob()}
-              style={{
-                color:"black",
-                padding:"0.5em",
-                backgroundColor:"white",
-                border:"1px solid black",
-                borderRadius:"10px",
-              }}
-            />
-            <img 
-              src={searchImg} 
-              alt="search" 
-              onClick={findJob} 
-              style={{
-                padding:"2px",
-                margin:"2px",
-                width:"24px",
-                position:"relative",
-                top:"10px",
-                cursor: "pointer"
-              }}
-            />
+        {filteredJobs.length > 0 ? (
+          <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {filteredJobs.map((job) => (
+              <Job
+                key={job.id}
+                id={job.id}
+                title={job.title}
+                department={job.department}
+                location={job.location}
+                salary={job.salary}
+              />
+            ))}
           </div>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: "10px",
-            }}
-          >
-            {filteredJobs.length > 0 ? (
-              filteredJobs.map((job) => (
-                <Job
-                  key={job.id}
-                  id={job.id}
-                  title={job.title}
-                  department={job.department}
-                  location={job.location}
-                  salary={job.salary}
-                />
-              ))
-            ) : (
-              <p style={{
-                textAlign: "center" }}>
-                No jobs found.
-              </p>
-            )}
-          </div>
-        </div>
-        
+        ) : (
+          <p className="text-center text-gray-500">No jobs found.</p>
+        )}
       </div>
-    </>
+    </div>
   );
 }
+

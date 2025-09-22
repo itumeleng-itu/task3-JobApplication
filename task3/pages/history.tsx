@@ -25,7 +25,7 @@ export default function History() {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: '1fr 4fr',
+        gridTemplateColumns: '1fr 6fr',
         gap: '10px',
         height: '100vh',
       }}

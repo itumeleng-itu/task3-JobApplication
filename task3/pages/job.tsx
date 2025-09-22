@@ -68,7 +68,7 @@ export default function Job({
             border: "3px solid gray",
             justifySelf: "start",
             borderRadius: "35px",
-            width: "55px",
+            width: "45px",
           }}
         >
           <p style={{ textAlign: "center", fontWeight: "800" }}>{id}</p>

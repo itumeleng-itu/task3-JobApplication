@@ -2,6 +2,7 @@ import React from 'react';
 import uiImg from "../media/ui.jpg";
 import Sidebar from "./sidebar"
 import AutoAlert from "../src/components/ui/auto-dismiss"
+//import { Progress } from "@/components/ui/progress"
 
 
 export default function Dashboard() {

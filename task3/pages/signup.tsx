@@ -65,7 +65,7 @@ export default function Signup() {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-
+          width:"auto"
         }}
       >
         <form
@@ -81,69 +81,79 @@ export default function Signup() {
             width:"45%",
           }}
         >
-          <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+          <h2 style={{ textAlign: "center", marginBottom: "20px", fontWeight:"700", fontSize:"25PX"
+           }}>
             Sign Up
           </h2>
-
+          <label>Username</label>
           <input 
           type="text" 
           name="username" 
           value={formData.username} 
           onChange={handleChange} 
-          placeholder='username' 
+          placeholder='Username' 
           required 
           style={{
-              width: "93%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}/>
-
+            <label>Email</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
-            placeholder="email"
+            placeholder="Email"
             required
             style={{
-              width: "93%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}
           />
-
+          <label>Password</label>
           <input
             type="password"
             name="password"
-            placeholder='enter password'
+            placeholder='Enter password'
             value={formData.password}
             onChange={handleChange}
             required
             style={{
-              width: "93%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}
           />
+          <label>Re-enter Password</label>
           <input
             type="password"
             name="password2"
-            placeholder='re-enter password'
+            placeholder=' Re-enter password'
             value={formData.password2}
             onChange={handleChange}
             required
             style={{
-              width: "93%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}
           />
           <button onClick={navToLogIn} style={{
@@ -151,12 +161,14 @@ export default function Signup() {
             padding: "0.6em",
             fontSize: "1em",
             color:"white",
-            width:"98%",
+            width:"100%",
             fontWeight: 500,
             fontFamily: "inherit",
             backdropFilter: 'blur(10px)',
             backgroundColor: 'rgba(0, 0, 0, 1)',
             border:'1px solid rgba(255, 255, 255, 0.2)',
+            marginTop:"1vh"
+            
           }}>
         SignUp</button>
         <hr></hr>

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from "react-router-dom";
-import AutoAlert from "../src/components/ui/auto-dismiss"
-import { Progress } from "@/components/ui/progress"
+//import AutoAlert from "../src/components/ui/auto-dismiss"
 
 
 
@@ -20,6 +19,7 @@ import { Progress } from "@/components/ui/progress"
 
     function showSum(e: React.FormEvent){
       e.preventDefault()
+      
         console.log(savedUserData.name); {/*Debugging */}
         console.log(userData.name); {/*Debugging */}
         console.log("************************************");
@@ -37,7 +37,6 @@ import { Progress } from "@/components/ui/progress"
       }
       else{
       nav("/profile");
-      <AutoAlert message= "You have logged in " duration={3000} />
       }
     }
     
@@ -57,7 +56,7 @@ import { Progress } from "@/components/ui/progress"
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-
+          width:"100vh"
         }}
       >
         <form
@@ -73,10 +72,10 @@ import { Progress } from "@/components/ui/progress"
             width:"40%",
           }}
         >
-          <h2 style={{ textAlign: "center", marginBottom: "20px" }}>
+          <h2 style={{ textAlign: "center", marginBottom: "20px", fontWeight:"700", fontSize:"25px" }}>
             Log In
           </h2>
-
+          <label>Name</label>
           <input 
           type="text" 
           name="username" 
@@ -86,20 +85,22 @@ import { Progress } from "@/components/ui/progress"
               name: e.target.value
             }))
           }} 
-          placeholder='username' 
+          placeholder='Username' 
           required 
           style={{
-              width: "90%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}/>
-
+            <label>Password</label>
           <input
             type="password"
             name="password"
-            placeholder='enter password'
+            placeholder='Enter password'
             onChange={(e)=> {
             setuserData(prevState => ({
               ...prevState,
@@ -108,11 +109,13 @@ import { Progress } from "@/components/ui/progress"
           }} 
             required
             style={{
-              width: "90%",
+              width: "100%",
               padding: "10px",
               margin: "8px 0",
               borderRadius: "10px",
               border: "1px solid #ccc",
+              backgroundColor:"black",
+              color:"white"
             }}
           />
           <button style={{
@@ -126,7 +129,7 @@ import { Progress } from "@/components/ui/progress"
             backdropFilter: 'blur(10px)',
             backgroundColor: 'rgba(0, 0, 0, 1)',
             border:'1px solid rgba(255, 255, 255, 0.2)',
-            
+            marginTop:"1vh"
           }}>
         LogIn</button>
         <hr></hr>
