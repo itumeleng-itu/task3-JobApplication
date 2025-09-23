@@ -85,8 +85,9 @@ export default function Signup() {
            }}>
             Sign Up
           </h2>
+          <p className="pl-28 text-s mb-4 font-semibold">We have made job hunting easier for you</p>
           <label>Username</label>
-          <input 
+          <input  
           type="text" 
           name="username" 
           value={formData.username} 
@@ -172,9 +173,7 @@ export default function Signup() {
           }}>
         SignUp</button>
         <hr></hr>
-        <p style={{
-            textAlign:"center",
-        }}> Already a member? <Link to="/login" style={{textDecoration:"none", color:"grey"}}>Login</Link>
+        <p className="pl-45 text-s mb-4 mt-4 font-semibold"> Already a member? <Link to="/login" style={{textDecoration:"none", color:"grey"}}>Login</Link>
         </p>
         </form>
       </div>

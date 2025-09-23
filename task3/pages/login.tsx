@@ -56,7 +56,7 @@ import { useNavigate, Link } from "react-router-dom";
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-          width:"100vh"
+          width:"105vh"
         }}
       >
         <form
@@ -75,6 +75,8 @@ import { useNavigate, Link } from "react-router-dom";
           <h2 style={{ textAlign: "center", marginBottom: "20px", fontWeight:"700", fontSize:"25px" }}>
             Log In
           </h2>
+          <p className="p-3 text-s mb-3 font-semibold">View available jobs tailored for you, near you</p>
+          <hr className="bg-black"></hr>
           <label>Name</label>
           <input 
           type="text" 
