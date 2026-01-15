@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import Sidebar from "./sidebar";
-import DashboardHeader from "../src/components/DashboardHeader";
+import PageHeader from "../src/components/PageHeader";
 import ProfileOverview from "../src/components/ProfileOverview";
 import StatCard from "../src/components/StatCard";
 import QuickAction from "../src/components/QuickAction";
@@ -13,18 +13,8 @@ export default function Dashboard() {
     approved: 0,
     rejected: 0
   });
-  const [username, setUsername] = useState("");
 
   useEffect(() => {
-    // Get username from localStorage (set during login)
-    const signInData = localStorage.getItem("signInData");
-    if (signInData) {
-      const parsed = JSON.parse(signInData);
-      // The name field contains the username from login
-      setUsername(parsed.name || parsed.username || "User");
-    }
-
-    // Fetch application stats
     const fetchStats = async () => {
       try {
         const apps = await applicationsApi.getAll();
@@ -35,7 +25,6 @@ export default function Dashboard() {
           rejected: apps.filter(a => a.status === 'rejected').length
         });
       } catch {
-        // Fallback to localStorage
         const saved = localStorage.getItem('jobApplications');
         if (saved) {
           const apps = JSON.parse(saved);
@@ -56,16 +45,13 @@ export default function Dashboard() {
       <Sidebar />
       
       <main className="flex-1 p-6 md:p-12 md:ml-[200px] bg-white transition-all duration-300">
-        <DashboardHeader username={username} />
+        <PageHeader />
 
         {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
-          {/* Profile Overview - spans 1 column, 2 rows */}
           <div className="lg:row-span-2">
             <ProfileOverview />
           </div>
-
-          {/* Stats Grid - 2x2 */}
           <StatCard label="Total aplications" value={stats.total} />
           <StatCard label="Pending" value={stats.pending} />
           <StatCard label="Approved" value={stats.approved} />

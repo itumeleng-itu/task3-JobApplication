@@ -1,4 +1,5 @@
 import Sidebar from "./sidebar";
+import PageHeader from "../src/components/PageHeader";
 
 export default function About() {
   const infoCards = [
@@ -34,26 +35,21 @@ export default function About() {
     <div className="flex min-h-screen w-full bg-white">
       <Sidebar />
       
-      <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-2">About This App</h1>
-          <p className="text-gray-500 font-medium">Learn more about how to use the Job Application Tracker</p>
-        </div>
+      <main className="flex-1 p-6 md:p-12 md:ml-[200px] bg-white transition-all duration-300">
+        <PageHeader />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {infoCards.map((card, index) => (
-            <div key={index} className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm animate-fade-in hover:shadow-md transition-shadow" style={{ animationDelay: `${index * 0.1}s` }}>
-              <div className="flex items-center gap-3 mb-5">
-                <h3 className="font-extrabold text-gray-900 text-xl tracking-tight">{card.title}</h3>
-              </div>
+            <div key={index} className="bg-gray-200 rounded-2xl p-8">
+              <h3 className="font-bold text-black text-xl mb-4">{card.title}</h3>
               {card.content && (
-                <p className="text-gray-500 leading-relaxed">{card.content}</p>
+                <p className="text-gray-600 leading-relaxed">{card.content}</p>
               )}
               {card.items && (
-                <ul className="space-y-3 mt-4">
+                <ul className="space-y-3">
                   {card.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-gray-600 font-medium">
-                      <span className="text-blue-500 font-black">•</span>
+                    <li key={i} className="flex items-start gap-3 text-gray-600">
+                      <span className="text-black font-black">•</span>
                       {item}
                     </li>
                   ))}
