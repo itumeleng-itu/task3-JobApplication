@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Home } from "lucide-react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { 
+  Home01Icon, 
+  Briefcase01Icon, 
+  UserIcon, 
+  Clock01Icon, 
+  FileAddIcon,
+  InformationCircleIcon,
+  Logout01Icon
+} from "@hugeicons/core-free-icons";
 
 export default function Sidebar() {
   const navigate = useNavigate();
@@ -11,11 +20,11 @@ export default function Sidebar() {
   const data = localStorage.getItem("signInData");
 
   const menuItems = [
-    { label: "Dashboard", route: "/profile" },
-    { label: "Browse Jobs", route: "/jobs" },
-    { label: "My Jobs", route: "/myJobs" },
-    { label: "History", route: "/history" },
-    { label: "Add Details", route: "/addDetails" },
+    { label: "Dashboard", route: "/profile", icon: Home01Icon },
+    { label: "Browse Jobs", route: "/jobs", icon: Briefcase01Icon },
+    { label: "My Jobs", route: "/myJobs", icon: UserIcon },
+    { label: "History", route: "/history", icon: Clock01Icon },
+    { label: "Add Details", route: "/addDetails", icon: FileAddIcon },
   ];
 
   const handleLogout = () => {
@@ -63,7 +72,7 @@ export default function Sidebar() {
                 setIsOpen(false);
               }}
             >
-              <Home size={16} />
+              <HugeiconsIcon icon={item.icon} size={18} />
               {item.label}
             </button>
           ))}
@@ -75,13 +84,14 @@ export default function Sidebar() {
             onClick={() => navigate('/about')}
             className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-gray-400 hover:text-white w-full"
           >
-            <Home size={16} />
+            <HugeiconsIcon icon={InformationCircleIcon} size={18} />
             About
           </button>
           <button 
             onClick={handleLogout}
-            className="w-full mt-4 py-2.5 bg-red-500 text-white text-sm font-bold rounded-lg hover:bg-red-600 transition-colors"
+            className="w-full mt-4 py-2.5 bg-red-500 text-white text-sm font-bold rounded-lg hover:bg-red-600 transition-colors flex items-center justify-center gap-2"
           >
+            <HugeiconsIcon icon={Logout01Icon} size={18} />
             Sign Out
           </button>
         </div>

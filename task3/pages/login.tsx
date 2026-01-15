@@ -39,22 +39,22 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white items-center justify-center p-8">
+    <div className="flex h-screen bg-white items-center justify-center p-8 overflow-hidden">
       <div className="flex flex-col md:flex-row w-full max-w-5xl gap-16 items-center">
         {/* Left Side */}
-        <div className="flex-1 w-full mt-40 max-w-md md:max-w-none text-left">
+        <div className="flex-1 w-full max-w-md md:max-w-none text-left">
           <h1 className="text-6xl font-extrabold text-[#222] mb-2 leading-none">Job Application Tracker.</h1>
           <p className="text-xl italic text-gray-500 mb-12">seamlessly tracking your job applications.</p>
           
           <div className="flex gap-6 mt-8">
             <div className="p-1 flex items-center justify-center">
-              <img src={search} alt="search" className='h-40 w-600'/>
+              <img src={search} alt="search" className='h-40 w-900'/>
             </div>
             <div className="p-4 flex items-start justify-start">
-              <img src={apply} alt="search" className='h-30 w-450'/>
+              <img src={apply} alt="search" className='h-30 w-700'/>
             </div>
             <div className="p-4 flex items-center justify-center">
-              <img src={binoculars} alt="search" className='h-60 w-650'/>
+              <img src={binoculars} alt="search" className='h-60 w-1050'/>
             </div>
           </div>
         </div>

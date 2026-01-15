@@ -5,6 +5,16 @@ import ProfileOverview from "../src/components/ProfileOverview";
 import StatCard from "../src/components/StatCard";
 import QuickAction from "../src/components/QuickAction";
 import { applicationsApi } from "../src/services/api";
+import { 
+  GoogleDocIcon, 
+  Loading01Icon, 
+  CheckmarkCircle03Icon, 
+  CancelCircleIcon,
+  Briefcase01Icon,
+  UserIcon,
+  Clock01Icon,
+  FileAddIcon
+} from "@hugeicons/core-free-icons";
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
@@ -52,20 +62,20 @@ export default function Dashboard() {
           <div className="lg:row-span-2">
             <ProfileOverview />
           </div>
-          <StatCard label="Total aplications" value={stats.total} />
-          <StatCard label="Pending" value={stats.pending} />
-          <StatCard label="Approved" value={stats.approved} />
-          <StatCard label="Rejected" value={stats.rejected} />
+          <StatCard label="Total aplications" value={stats.total} icon={GoogleDocIcon} />
+          <StatCard label="Pending" value={stats.pending} icon={Loading01Icon} />
+          <StatCard label="Approved" value={stats.approved} icon={CheckmarkCircle03Icon} />
+          <StatCard label="Rejected" value={stats.rejected} icon={CancelCircleIcon} />
         </div>
 
         {/* Quick Actions */}
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-black mb-4">Quick actions</h2>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <QuickAction label="Browse Jobs" href="/jobs" />
-            <QuickAction label="My Jobs" href="/myJobs" />
-            <QuickAction label="History" href="/history" />
-            <QuickAction label="Add details" href="/addDetails" />
+            <QuickAction label="Browse Jobs" href="/jobs" icon={Briefcase01Icon} />
+            <QuickAction label="My Jobs" href="/myJobs" icon={UserIcon} />
+            <QuickAction label="History" href="/history" icon={Clock01Icon} />
+            <QuickAction label="Add details" href="/addDetails" icon={FileAddIcon} />
           </div>
         </div>
       </main>

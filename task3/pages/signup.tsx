@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authApi } from "../src/services/api";
 import search from '../public/Screenshot 2026-01-15 085544.png';
 import apply from '../public/Screenshot 2026-01-15 090029.png';
-import binoculars from '../public/Screenshot 2026-01-15 090255.png'
+import binoculars from '../public/Screenshot 2026-01-15 090255.png';
 import { Eye, EyeOff } from 'lucide-react';
 
 const Signup = () => {
@@ -67,7 +67,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex min-h-screen bg-white items-center justify-center p-8">
+    <div className="flex h-screen bg-white items-center justify-center p-8 overflow-hidden">
       <div className="flex flex-col md:flex-row w-full max-w-5xl gap-16 items-center">
         {/* Left Side */}
         <div className="flex-1 w-full max-w-md md:max-w-none text-left">
