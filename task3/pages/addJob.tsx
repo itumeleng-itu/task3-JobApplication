@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Job from "./Job";
 import Sidebar from "./sidebar";
 import { jobsApi, type Job as JobType } from "../src/services/api";
@@ -89,31 +89,33 @@ export default function AddJob() {
   };
 
   return (
-    <div className="page-container">
+    <div className="flex min-h-screen w-full bg-white">
       <Sidebar />
       
-      <main className="main-content">
+      <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
         {/* Page Header */}
-        <div className="page-header">
-          <h1 className="page-title">Available Jobs</h1>
-          <p className="text-gray-500">Find your next career opportunity</p>
+        <div className="mb-10">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-2">Available Jobs</h1>
+          <p className="text-gray-500 font-medium">Find your next career opportunity</p>
         </div>
 
         {/* Search Bar */}
-        <div className="search-container">
-          <input
-            type="search"
-            placeholder="Search by location, title, or department..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={handleKeyDown}
-            className="search-input"
-          />
-          <button onClick={handleSearch} className="search-btn">
+        <div className="flex gap-4 mb-10 items-center flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <input
+              type="search"
+              placeholder="Search by location, title, or department..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={handleKeyDown}
+              className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white"
+            />
+          </div>
+          <button onClick={handleSearch} className="px-8 py-3 bg-gray-900 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity">
             Search
           </button>
           {searchTerm && (
-            <button onClick={clearSearch} className="btn btn-secondary">
+            <button onClick={clearSearch} className="px-6 py-3 bg-gray-100 text-gray-700 text-sm font-bold rounded-xl hover:bg-gray-200 transition-colors">
               Clear
             </button>
           )}
@@ -121,7 +123,7 @@ export default function AddJob() {
 
         {/* Results Count */}
         {!isLoading && (
-          <p className="text-gray-500 mb-4">
+          <p className="text-gray-500 mb-6 text-sm font-medium">
             Showing {filteredJobs.length} of {jobs.length} jobs
             {searchTerm && ` for "${searchTerm}"`}
           </p>
@@ -129,13 +131,13 @@ export default function AddJob() {
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="empty-state">
-            <div className="text-4xl mb-4">Loading...</div>
-            <h3>Loading jobs...</h3>
-            <p>Please wait while we fetch available positions</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-4xl mb-4 animate-pulse">Loading...</div>
+            <h3 className="text-xl font-bold text-gray-900">Loading jobs...</h3>
+            <p className="text-gray-500 mt-2">Please wait while we fetch available positions</p>
           </div>
         ) : filteredJobs.length > 0 ? (
-          <div className="jobs-grid">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {filteredJobs.map((job) => (
               <Job
                 key={job.id}
@@ -148,11 +150,11 @@ export default function AddJob() {
             ))}
           </div>
         ) : (
-          <div className="empty-state">
-            <div className="text-2xl mb-4">No Results</div>
-            <h3>No jobs found</h3>
-            <p>Try adjusting your search criteria</p>
-            <button onClick={clearSearch} className="btn btn-primary mt-4">
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-2xl mb-4 text-gray-400">No Results</div>
+            <h3 className="text-xl font-bold text-gray-900">No jobs found</h3>
+            <p className="text-gray-500 mt-2">Try adjusting your search criteria</p>
+            <button onClick={clearSearch} className="mt-6 px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity">
               Show All Jobs
             </button>
           </div>

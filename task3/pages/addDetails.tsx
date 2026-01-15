@@ -1,4 +1,4 @@
-import React, { useState, type ChangeEvent,  type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import Sidebar from "./sidebar";
 import { useNavigate } from "react-router-dom";
 
@@ -54,30 +54,27 @@ export default function UserDetails() {
   }
 
   return (
-    <div className="page-container">
+    <div className="flex min-h-screen w-full bg-white">
       <Sidebar />
       
-      <main className="main-content">
-        <div className="max-w-2xl mx-auto">
+      <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
+        <div className="max-w-xl mx-auto py-10">
           {/* Page Header */}
-          <div className="page-header text-center">
-            <div className="w-20 h-20 mx-auto mb-4 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-sm font-bold shadow-lg">
-              Profile
-            </div>
-            <h1 className="page-title">Complete Your Profile</h1>
-            <p className="text-gray-500">Add your details to get personalized job recommendations</p>
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-3">Complete Your Profile</h1>
+            <p className="text-gray-500 font-medium">Add your details to get personalized job recommendations</p>
           </div>
 
           {/* Form Card */}
-          <div className="card animate-fade-in">
+          <div className="bg-white border border-gray-100 shadow-2xl p-10 rounded-3xl animate-fade-in">
             <form onSubmit={saveDetails} className="space-y-6">
               {/* Full Names */}
-              <div className="form-group">
-                <label className="form-label">Full Names</label>
+              <div>
+                <label className="block text-[10px] uppercase font-black text-black mb-2 tracking-widest">Full Names</label>
                 <input
                   type="text"
                   name="fullnames"
-                  className="form-input"
+                  className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white"
                   placeholder="Enter your full name"
                   value={userData.fullnames}
                   onChange={handleChange}
@@ -86,12 +83,12 @@ export default function UserDetails() {
               </div>
 
               {/* Email */}
-              <div className="form-group">
-                <label className="form-label">Email Address</label>
+              <div>
+                <label className="block text-[10px] uppercase font-black text-black mb-2 tracking-widest">Email Address</label>
                 <input
                   type="email"
                   name="email"
-                  className="form-input"
+                  className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white"
                   placeholder="Enter your email"
                   value={userData.email}
                   onChange={handleChange}
@@ -100,68 +97,57 @@ export default function UserDetails() {
               </div>
 
               {/* Gender */}
-              <div className="form-group">
-                <label className="form-label">Gender</label>
-                <div className="flex gap-6 mt-2">
-                  <label className="flex items-center gap-2 cursor-pointer">
+              <div>
+                <label className="block text-[10px] uppercase font-black text-black mb-3 tracking-widest">Gender</label>
+                <div className="flex gap-8">
+                  <label className="flex items-center gap-3 cursor-pointer group">
                     <input
                       type="radio"
                       name="gender"
                       value="male"
                       checked={userData.gender === "male"}
                       onChange={handleChange}
-                      className="w-4 h-4 text-blue-600"
+                      className="w-5 h-5 text-blue-600 border-2 border-gray-200 accent-blue-600"
                       required
                     />
-                    <span className="text-gray-700">Male</span>
+                    <span className="text-gray-600 group-hover:text-blue-600 transition-colors font-medium">Male</span>
                   </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
+                  <label className="flex items-center gap-3 cursor-pointer group">
                     <input
                       type="radio"
                       name="gender"
                       value="female"
                       checked={userData.gender === "female"}
                       onChange={handleChange}
-                      className="w-4 h-4 text-blue-600"
+                      className="w-5 h-5 text-blue-600 border-2 border-gray-200 accent-blue-600"
                     />
-                    <span className="text-gray-700">Female</span>
-                  </label>
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="other"
-                      checked={userData.gender === "other"}
-                      onChange={handleChange}
-                      className="w-4 h-4 text-blue-600"
-                    />
-                    <span className="text-gray-700">Other</span>
+                    <span className="text-gray-600 group-hover:text-blue-600 transition-colors font-medium">Female</span>
                   </label>
                 </div>
               </div>
 
               {/* Address */}
-              <div className="form-group">
-                <label className="form-label">Address (include city name)</label>
+              <div>
+                <label className="block text-[10px] uppercase font-black text-black mb-2 tracking-widest">Address (include city name)</label>
                 <textarea
                   name="address"
-                  className="form-input min-h-24 resize-none"
+                  className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white min-h-24 resize-none"
                   placeholder="e.g. 123 Main Street, Sandton, Johannesburg"
                   value={userData.address}
                   onChange={handleChange}
                   required
                 />
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-[10px] text-gray-400 mt-2 font-medium">
                   Include your city name at the end for better job matching
                 </p>
               </div>
 
               {/* Department */}
-              <div className="form-group">
-                <label className="form-label">Preferred Department</label>
+              <div>
+                <label className="block text-[10px] uppercase font-black text-black mb-2 tracking-widest">Preferred Department</label>
                 <select
                   name="department"
-                  className="form-input"
+                  className="w-full px-4 py-3 border border-gray-100 bg-gray-50 rounded-xl text-sm transition-all focus:outline-none focus:border-blue-500 focus:bg-white appearance-none"
                   value={userData.department}
                   onChange={handleChange}
                   required
@@ -171,41 +157,18 @@ export default function UserDetails() {
                     <option key={dept} value={dept}>{dept}</option>
                   ))}
                 </select>
-                <p className="text-xs text-gray-400 mt-1">
-                  Choose the department that matches your skills and interests
-                </p>
               </div>
-
-              <hr className="form-divider" />
 
               {/* Submit Button */}
               <button 
                 type="submit" 
-                className="btn btn-primary w-full"
+                className="w-full py-4 bg-gray-900 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity mt-4"
                 disabled={isLoading}
                 style={{ opacity: isLoading ? 0.7 : 1 }}
               >
-                {isLoading ? (
-                  <>
-                    Saving...
-                  </>
-                ) : (
-                  <>
-                    Save & Find Jobs →
-                  </>
-                )}
+                {isLoading ? 'Saving...' : 'Save & Find Jobs'}
               </button>
             </form>
-          </div>
-
-          {/* Info Box */}
-          <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-            <h4 className="font-semibold text-blue-800 mb-2">Why we need this information</h4>
-            <p className="text-sm text-blue-700">
-              Your address and department preferences help us show you relevant job opportunities 
-              in your area and field of expertise. We'll match you with positions that align with 
-              your career goals.
-            </p>
           </div>
         </div>
       </main>

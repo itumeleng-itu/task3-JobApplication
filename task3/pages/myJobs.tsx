@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Job from "./Job";
 import Sidebar from "./sidebar";
 import { jobsApi, type Job as JobType } from "../src/services/api";
@@ -91,14 +91,14 @@ export default function MyJobs() {
   const details = localStorage.getItem("cv");
   if (!details) {
     return (
-      <div className="page-container">
+      <div className="flex min-h-screen w-full bg-white">
         <Sidebar />
-        <main className="main-content">
-          <div className="empty-state">
-            <div className="text-6xl mb-4"></div>
-            <h3>Complete Your Profile First</h3>
-            <p className="mb-4">Upload your details to see personalized job recommendations</p>
-            <a href="/addDetails" className="btn btn-primary">
+        <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-6xl mb-4 text-gray-300">!</div>
+            <h3 className="text-2xl font-bold text-gray-900">Complete Your Profile First</h3>
+            <p className="text-gray-500 mt-2 mb-6">Upload your details to see personalized job recommendations</p>
+            <a href="/addDetails" className="px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity">
               Upload Details
             </a>
           </div>
@@ -108,19 +108,19 @@ export default function MyJobs() {
   }
 
   return (
-    <div className="page-container">
+    <div className="flex min-h-screen w-full bg-white">
       <Sidebar />
       
-      <main className="main-content">
+      <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
         {/* Page Header */}
-        <div className="page-header">
-          <h1 className="page-title">Recommended Jobs</h1>
-          <p className="text-gray-500">
+        <div className="mb-10">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-2">Recommended Jobs</h1>
+          <p className="text-gray-500 font-medium">
             Jobs matching your profile
             {userDetails && (
               <span className="ml-2">
-                • <span className="font-medium text-blue-600">{userDetails.department}</span> department 
-                or in <span className="font-medium text-blue-600">{userDetails.city}</span>
+                • <span className="font-bold text-blue-600">{userDetails.department}</span> department 
+                or in <span className="font-bold text-blue-600">{userDetails.city}</span>
               </span>
             )}
           </p>
@@ -128,41 +128,32 @@ export default function MyJobs() {
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="empty-state">
-            <div className="text-4xl mb-4">Loading...</div>
-            <h3>Finding your perfect match...</h3>
-            <p>We're searching for jobs that match your profile</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-4xl mb-4 animate-pulse">Loading...</div>
+            <h3 className="text-xl font-bold text-gray-900">Finding your perfect match...</h3>
+            <p className="text-gray-500 mt-2">We're searching for jobs that match your profile</p>
           </div>
         ) : filteredJobs.length > 0 ? (
-          <>
-            {/* Results Count */}
-            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
-              <p className="text-blue-800">
-                We found <strong>{filteredJobs.length}</strong> jobs that match your profile!
-              </p>
-            </div>
-
-            <div className="jobs-grid">
-              {filteredJobs.map((job, index) => (
-                <motion.div
-                  key={job.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <Job
-                    id={job.id}
-                    title={job.title}
-                    department={job.department}
-                    location={job.location}
-                    salary={job.salary}
-                  />
-                </motion.div>
-              ))}
-            </div>
-          </>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredJobs.map((job, index) => (
+              <motion.div
+                key={job.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Job
+                  id={job.id}
+                  title={job.title}
+                  department={job.department}
+                  location={job.location}
+                  salary={job.salary}
+                />
+              </motion.div>
+            ))}
+          </div>
         ) : (
-          <div className="empty-state">
+          <div className="flex flex-col items-center justify-center py-20 text-center">
             <motion.div
               animate={{
                 y: [-10, 10, -10],
@@ -173,14 +164,14 @@ export default function MyJobs() {
                 ease: "easeInOut",
               }}
             >
-              <div className="text-2xl mb-4">No Results</div>
+              <div className="text-2xl mb-4 text-gray-400">No Results</div>
             </motion.div>
-            <h3>No matching jobs found</h3>
-            <p className="mb-4">
+            <h3 className="text-xl font-bold text-gray-900">No matching jobs found</h3>
+            <p className="text-gray-500 mt-2 mb-6">
               We couldn't find jobs matching your {userDetails?.department} department 
               or in {userDetails?.city}
             </p>
-            <a href="/jobs" className="btn btn-primary">
+            <a href="/jobs" className="px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity">
               Browse All Jobs
             </a>
           </div>

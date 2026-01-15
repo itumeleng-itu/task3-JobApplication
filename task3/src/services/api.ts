@@ -201,3 +201,43 @@ export const usersApi = {
         }
     }
 };
+
+// Auth API (alias for login/signup pages)
+export const authApi = {
+    getUsers: async (): Promise<Array<{ id?: number; username: string; email?: string; password: string }>> => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/users`);
+            if (!response.ok) throw new Error('Failed to fetch users');
+            const users = await response.json();
+            // Map 'name' to 'username' for compatibility
+            return users.map((u: any) => ({ ...u, username: u.name || u.username }));
+        } catch (error) {
+            // Fallback to localStorage
+            const savedData = localStorage.getItem('signInData');
+            if (savedData) {
+                const saved = JSON.parse(savedData);
+                return [{ username: saved.name, password: saved.password }];
+            }
+            return [];
+        }
+    },
+
+    register: async (user: { username: string; email?: string; password: string }): Promise<any> => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/users`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: user.username, email: user.email, password: user.password })
+            });
+            if (!response.ok) throw new Error('Failed to register user');
+            const newUser = await response.json();
+            localStorage.setItem('signInData', JSON.stringify({ name: user.username, password: user.password }));
+            return newUser;
+        } catch (error) {
+            // Fallback to localStorage
+            localStorage.setItem('signInData', JSON.stringify({ name: user.username, password: user.password }));
+            return { username: user.username, email: user.email };
+        }
+    }
+};
+

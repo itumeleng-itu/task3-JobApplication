@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Sidebar from './sidebar';
-import { applicationsApi, type Application } from '../src/services/api';
+import { applicationsApi } from '../src/services/api';
 
 type JobDetails = {
   id?: number;
@@ -66,19 +66,11 @@ export default function History() {
     return app.status === filter;
   });
 
-  const getStatusClass = (status: string) => {
+  const getStatusClasses = (status: string) => {
     switch (status) {
-      case 'approved': return 'status-badge status-approved';
-      case 'rejected': return 'status-badge status-rejected';
-      default: return 'status-badge status-pending';
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'approved': return '';
-      case 'rejected': return '';
-      default: return '';
+      case 'approved': return 'bg-emerald-100 text-emerald-700';
+      case 'rejected': return 'bg-rose-100 text-rose-700';
+      default: return 'bg-amber-100 text-amber-700';
     }
   };
 
@@ -90,46 +82,46 @@ export default function History() {
   };
 
   return (
-    <div className="page-container">
+    <div className="flex min-h-screen w-full bg-white">
       <Sidebar />
       
-      <main className="main-content">
+      <main className="flex-1 p-6 md:p-12 md:ml-[280px] bg-white transition-all duration-300">
         {/* Page Header */}
-        <div className="page-header">
-          <h1 className="page-title">Application History</h1>
-          <p className="text-gray-500">Track the status of your job applications</p>
+        <div className="mb-10">
+          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 mb-2">Application History</h1>
+          <p className="text-gray-500 font-medium">Track the status of your job applications</p>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-blue-600">{stats.total}</p>
-            <p className="text-sm text-gray-500">Total</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm">
+            <p className="text-4xl font-black text-blue-600">{stats.total}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Total</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
-            <p className="text-sm text-gray-500">Pending</p>
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm">
+            <p className="text-4xl font-black text-amber-500">{stats.pending}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Pending</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-green-600">{stats.approved}</p>
-            <p className="text-sm text-gray-500">Approved</p>
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm">
+            <p className="text-4xl font-black text-emerald-500">{stats.approved}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Approved</p>
           </div>
-          <div className="card text-center">
-            <p className="text-3xl font-bold text-red-600">{stats.rejected}</p>
-            <p className="text-sm text-gray-500">Rejected</p>
+          <div className="bg-white border border-gray-100 rounded-2xl p-6 text-center shadow-sm">
+            <p className="text-4xl font-black text-rose-500">{stats.rejected}</p>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mt-1">Rejected</p>
           </div>
         </div>
 
         {/* Filter Buttons */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-3 mb-8">
           {['all', 'pending', 'approved', 'rejected'].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
-              className={`px-4 py-2 rounded-lg font-medium transition-all ${
+              className={`px-5 py-2.5 rounded-xl text-sm font-bold transition-all ${
                 filter === status
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                  ? 'bg-gray-900 text-white'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
               }`}
             >
               {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -144,24 +136,24 @@ export default function History() {
 
         {/* Loading State */}
         {isLoading ? (
-          <div className="empty-state">
-            <div className="text-4xl mb-4">Loading...</div>
-            <h3>Loading applications...</h3>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-4xl mb-4 animate-pulse">Loading...</div>
+            <h3 className="text-xl font-bold text-gray-900">Loading applications...</h3>
           </div>
         ) : filteredApplications.length === 0 ? (
-          <div className="empty-state">
-            <div className="text-2xl mb-4">No Applications</div>
-            <h3>
+          <div className="flex flex-col items-center justify-center py-20 text-center">
+            <div className="text-2xl mb-4 text-gray-400">No Applications</div>
+            <h3 className="text-xl font-bold text-gray-900">
               {filter === 'all' 
                 ? 'No applications yet' 
                 : `No ${filter} applications`}
             </h3>
-            <p className="mb-4">
+            <p className="text-gray-500 mt-2 mb-6">
               {filter === 'all'
                 ? 'Start applying to jobs to track your progress here'
                 : 'Try changing your filter or apply to more jobs'}
             </p>
-            <a href="/jobs" className="btn btn-primary">
+            <a href="/jobs" className="px-6 py-3 bg-blue-600 text-white text-sm font-bold rounded-xl hover:opacity-90 transition-opacity">
               Browse Jobs
             </a>
           </div>
@@ -170,20 +162,20 @@ export default function History() {
             {filteredApplications.map((app, index) => (
               <div
                 key={index}
-                className="application-card animate-fade-in"
+                className="bg-white border border-gray-100 rounded-2xl p-6 flex items-center justify-between gap-4 shadow-sm animate-fade-in hover:border-gray-200 transition-all"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
-                <div className="application-info">
-                  <h3>{app.name}</h3>
-                  <p>Applied on {new Date(app.date).toLocaleDateString('en-ZA', {
+                <div className="flex-1">
+                  <h3 className="font-bold text-gray-900 text-lg">{app.name}</h3>
+                  <p className="text-sm text-gray-500 mt-1">Applied on {new Date(app.date).toLocaleDateString('en-ZA', {
                     weekday: 'short',
                     year: 'numeric',
                     month: 'short',
                     day: 'numeric'
                   })}</p>
                 </div>
-                <span className={getStatusClass(app.status)}>
-                  {getStatusIcon(app.status)} {app.status}
+                <span className={`px-4 py-2 rounded-lg text-xs font-black uppercase tracking-wider ${getStatusClasses(app.status)}`}>
+                  {app.status}
                 </span>
               </div>
             ))}

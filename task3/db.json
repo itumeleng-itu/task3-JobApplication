@@ -176,7 +176,15 @@
       "salary": "R53,000/m"
     }
   ],
-  "applications": [],
+  "applications": [
+    {
+      "jobId": 25,
+      "jobTitle": "IT Security Specialist",
+      "date": "2026-01-15T09:58:50.759Z",
+      "status": "pending",
+      "id": 1
+    }
+  ],
   "users": [
     {
       "name": "testuser",

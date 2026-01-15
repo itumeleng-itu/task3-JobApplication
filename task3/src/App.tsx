@@ -7,6 +7,7 @@ import History from "../pages/history";
 import Dashboard from "../pages/profile"
 import UserDetails from "../pages/addDetails"
 import MyJobs from "../pages/myJobs"
+import About from "../pages/about"
 import FileNotFound from "../pages/404"
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/jobs" element={<AddJob />} />
         <Route path="/profile" element={<Dashboard />} />
+        <Route path="/about" element={<About />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/history" element={<History />} />
         <Route path="/addDetails" element={<UserDetails />} />
