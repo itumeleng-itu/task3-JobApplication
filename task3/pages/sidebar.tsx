@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "../src/components/ui/button";
 import {
   AlertDialog,
@@ -15,72 +15,116 @@ import {
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isOpen, setIsOpen] = useState(false);
+  
   const data = localStorage.getItem("signInData");
   if (!data) return null;
   const myData = JSON.parse(data);
   const date = new Date();
 
   const menuItems = [
-    { label: "DASHBOARD", route: "/profile" },
-    { label: "UPLOAD DETAILS", route: "/addDetails" },
-    //{ label: "MY JOBS", route: "/myJobs" },
-    { label: "ALL JOBS", route: "/jobs" },
-    { label: "APPLICATION HISTORY", route: "/history" },
+    { label: "Dashboard", route: "/profile", icon: "" },
+    { label: "Upload Details", route: "/addDetails", icon: "" },
+    { label: "All Jobs", route: "/jobs", icon: "" },
+    { label: "My Jobs", route: "/myJobs", icon: "" },
+    { label: "Application History", route: "/history", icon: "" },
   ];
 
+  const toggleSidebar = () => setIsOpen(!isOpen);
+
   return (
-    <div className="flex flex-col h-screen w-66 bg-black p-5 text-white shadow-lg ">
-      <div className="mb-9">
-        <h3 className="text-lg font-bold">Hi, {myData.name}</h3>
-        <p className="text-sm text-white">{date.toLocaleString()}</p>
-      </div>
+    <>
+      {/* Mobile Menu Button */}
+      <button 
+        className="mobile-menu-btn md:hidden"
+        onClick={toggleSidebar}
+        aria-label="Toggle menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          {isOpen ? (
+            <path d="M18 6L6 18M6 6l12 12" />
+          ) : (
+            <>
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </>
+          )}
+        </svg>
+      </button>
 
-      <nav className="flex flex-col gap-3 flex-grow">
-        {menuItems.map((item) => (
-          <Button
-            key={item.label}
-            variant="secondary"
-            className="w-full py-5 text-black bg-white transition-colors rounded-md"
-            onClick={() => navigate(item.route)}
-          >
-            {item.label}
-          </Button>
-        ))}
-      </nav>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-50 md:hidden"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
 
-      <div className="mt-auto">
-        <AlertDialog>
-          <AlertDialogTrigger >
-            <Button
-              variant="destructive"
-              className="w-full py-2 mt-4 px-18 mb-3 bg-red-600 hover:bg-red-700 rounded-md text-white"
+      {/* Sidebar */}
+      <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+        {/* Header */}
+        <div className="sidebar-header">
+          <h3>Welcome back, {myData.name}!</h3>
+          <p>{date.toLocaleDateString('en-ZA', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+          })}</p>
+        </div>
+
+        {/* Navigation */}
+        <nav className="sidebar-nav">
+          {menuItems.map((item) => (
+            <button
+              key={item.label}
+              className={`sidebar-btn ${location.pathname === item.route ? 'active' : ''}`}
+              onClick={() => {
+                navigate(item.route);
+                setIsOpen(false);
+              }}
             >
-              Logout
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent className=" rounded-lg bg-black p-7">
-            <AlertDialogHeader>
-              <AlertDialogTitle className="text-lg font-semibold text-white">
-                Confirm Logout
-              </AlertDialogTitle>
-              <AlertDialogDescription className="text-white">
-                Are you sure you want to continue? <br></br>You will be logged out.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="flex justify-end gap-2">
-              <AlertDialogCancel className="px-4 py-2 bg-gray-200 rounded-md">
-                Cancel
-              </AlertDialogCancel>
-              <AlertDialogAction
-                className="px-7 py-2 bg-red-600 rounded-md text-white"
-                onClick={() => navigate("/login")}
-              >
-                Yes
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-    </div>
+              <span>{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Footer with Logout */}
+        <div className="sidebar-footer">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button className="logout-btn">
+                Logout
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="bg-white rounded-xl p-6 max-w-md">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="text-xl font-bold text-gray-900">
+                  Confirm Logout
+                </AlertDialogTitle>
+                <AlertDialogDescription className="text-gray-600 mt-2">
+                  Are you sure you want to logout? You will need to sign in again to access your account.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="flex justify-end gap-3 mt-6">
+                <AlertDialogCancel className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors">
+                  Cancel
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  className="px-5 py-2.5 bg-red-500 hover:bg-red-600 rounded-lg text-white font-medium transition-colors"
+                  onClick={() => {
+                    localStorage.removeItem("signInData");
+                    navigate("/login");
+                  }}
+                >
+                  Yes, Logout
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </aside>
+    </>
   );
 }

@@ -1,17 +1,13 @@
-import React from 'react' ;
-import { useState, type ChangeEvent, type FormEvent } from "react"
+import React, { useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate, Link } from "react-router-dom";
-//import Button from "./button"
+import { usersApi } from "../src/services/api";
 
-{/* Account details properties */}
-type SignupFormData ={   
+type SignupFormData = {
   username: string;
   email: string;
   password: string;
   password2: string;
-}
-
-
+};
 
 export default function Signup() {
   const nav = useNavigate();
@@ -19,163 +15,147 @@ export default function Signup() {
     username: "",
     email: "",
     password: "",
-    password2:"",
+    password2: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setError("");
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Signup Data:", formData); {/*debugging checking to see if i have extracted signup info*/}
+    setError("");
+
+    // Validate passwords match
+    if (formData.password !== formData.password2) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    // Validate password length
+    if (formData.password.length < 4) {
+      setError("Password must be at least 4 characters");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Register via API
+      const user = await usersApi.register({
+        name: formData.username,
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (user) {
+        nav("/login");
+      } else {
+        setError("Registration failed. Please try again.");
+      }
+    } catch (err) {
+      setError("Registration failed. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  function verifyPassword(){
-    if(formData.password2 !== formData.password){
-      return false
-    }
-    const myData ={
-      name:formData.username,
-      password: formData.password
-    }
-    localStorage.setItem("signInData",JSON.stringify(myData))
-    return true
-  }
-
-  function navToLogIn(){
-    if(verifyPassword()){
-      nav("/login")
-    }
-  }
-
-  return ( 
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        width:"205vh",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "white",
-          width:"auto"
-        }}
-      >
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            border:"1px solid #fff",
-            borderRadius:"25px",
-            margin:"6px",
-            padding:"30px",
-            boxShadow:"1px 1px 5px black",
-            color:"black",
-            textAlign:"start",
-            width:"45%",
-          }}
-        >
-          <h2 style={{ textAlign: "center", marginBottom: "20px", fontWeight:"700", fontSize:"25PX"
-           }}>
+  return (
+    <div className="form-container">
+      <div className="form-card animate-fade-in">
+        {/* Logo/Brand */}
+        <div className="form-header">
+          <div className="w-16 h-16 mx-auto mb-4 bg-blue-600 rounded-2xl flex items-center justify-center text-white text-sm font-bold shadow-lg">
             Sign Up
-          </h2>
-          <p className="pl-28 text-s mb-4 font-semibold">We have made job hunting easier for you</p>
-          <label>Username</label>
-          <input  
-          type="text" 
-          name="username" 
-          value={formData.username} 
-          onChange={handleChange} 
-          placeholder='Username' 
-          required 
-          style={{
-              width: "100%",
-              padding: "10px",
-              margin: "8px 0",
-              borderRadius: "10px",
-              border: "1px solid #ccc",
-              backgroundColor:"black",
-              color:"white"
-            }}/>
-            <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              margin: "8px 0",
-              borderRadius: "10px",
-              border: "1px solid #ccc",
-              backgroundColor:"black",
-              color:"white"
-            }}
-          />
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            placeholder='Enter password'
-            value={formData.password}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              margin: "8px 0",
-              borderRadius: "10px",
-              border: "1px solid #ccc",
-              backgroundColor:"black",
-              color:"white"
-            }}
-          />
-          <label>Re-enter Password</label>
-          <input
-            type="password"
-            name="password2"
-            placeholder=' Re-enter password'
-            value={formData.password2}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "10px",
-              margin: "8px 0",
-              borderRadius: "10px",
-              border: "1px solid #ccc",
-              backgroundColor:"black",
-              color:"white"
-            }}
-          />
-          <button onClick={navToLogIn} style={{
-            borderRadius: "10px",
-            padding: "0.6em",
-            fontSize: "1em",
-            color:"white",
-            width:"100%",
-            fontWeight: 500,
-            fontFamily: "inherit",
-            backdropFilter: 'blur(10px)',
-            backgroundColor: 'rgba(0, 0, 0, 1)',
-            border:'1px solid rgba(255, 255, 255, 0.2)',
-            marginTop:"1vh"
-            
-          }}>
-        SignUp</button>
-        <hr></hr>
-        <p className="pl-45 text-s mb-4 mt-4 font-semibold"> Already a member? <Link to="/login" style={{textDecoration:"none", color:"grey"}}>Login</Link>
-        </p>
+          </div>
+          <h2>Create Account</h2>
+          <p>We've made job hunting easier for you</p>
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm text-center">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Username</label>
+            <input
+              type="text"
+              name="username"
+              className="form-input"
+              placeholder="Choose a username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              className="form-input"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Password</label>
+            <input
+              type="password"
+              name="password"
+              className="form-input"
+              placeholder="Create a password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Confirm Password</label>
+            <input
+              type="password"
+              name="password2"
+              className="form-input"
+              placeholder="Re-enter your password"
+              value={formData.password2}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            className="btn btn-primary w-full mt-4"
+            disabled={isLoading}
+            style={{ opacity: isLoading ? 0.7 : 1 }}
+          >
+            {isLoading ? (
+              <>
+                Creating account...
+              </>
+            ) : (
+              'Create Account'
+            )}
+          </button>
         </form>
+
+        <hr className="form-divider" />
+
+        <p className="form-footer">
+          Already have an account? <Link to="/login">Sign in</Link>
+        </p>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { applicationsApi } from "../src/services/api";
 
 type JobProps = {
   id: number;
@@ -8,19 +9,6 @@ type JobProps = {
   salary: string;
 };
 
-type JobDetails = {
-  name: string;
-  date: Date;
-  status: string;
-};
-
-// randomly pick a status
-function getRandomStatus() {
-  const options = ["approved", "pending", "rejected"];
-  const randomIndex = Math.floor(Math.random() * options.length);
-  return options[randomIndex];
-}
-
 export default function Job({
   id,
   title,
@@ -28,93 +16,73 @@ export default function Job({
   location,
   salary,
 }: JobProps) {
-  const [applications, setApplications] = useState<JobDetails[]>(() => {
-    const saved = localStorage.getItem("jobApplications");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [isApplying, setIsApplying] = useState(false);
+  const [applied, setApplied] = useState(false);
 
-  const clickHandler = () => {
-    const newApplication: JobDetails = {
-      name: title,
-      date: new Date(),
-      status: getRandomStatus(), // calling the random value function
-    };
+  const handleApply = async () => {
+    setIsApplying(true);
+    
+    try {
+      // Create application via API
+      const application = await applicationsApi.create({
+        jobId: id,
+        jobTitle: title,
+        date: new Date().toISOString(),
+        status: 'pending'
+      });
 
-    const updatedApplications = [...applications, newApplication];
-    setApplications(updatedApplications);
-    localStorage.setItem("jobApplications", JSON.stringify(updatedApplications));
-
-    alert(
-      `Applied for: ${title}.`
-    );
+      if (application) {
+        setApplied(true);
+        // Show success message
+        setTimeout(() => {
+          alert(`Successfully applied for: ${title}!\n\nYour application is now pending review.`);
+        }, 100);
+      }
+    } catch (error) {
+      alert('Failed to submit application. Please try again.');
+    } finally {
+      setIsApplying(false);
+    }
   };
 
   return (
-    <div
-      style={{
-        border: "1px solid #fff",
-        borderRadius: "25px",
-        margin: "6px",
-        padding: "30px",
-        boxShadow: "1px 1px 5px black",
-        color: "black",
-        textAlign: "start",
-        width: "auto",
-      }}
-    >
-      <div style={{ display: "flex" }}>
-        <div
-          style={{
-            border: "3px solid gray",
-            justifySelf: "start",
-            borderRadius: "35px",
-            width: "45px",
-          }}
-        >
-          <p style={{ textAlign: "center", fontWeight: "800" }}>{id}</p>
-        </div>
-        <div style={{ marginLeft: "auto", marginTop: "20px" }}>
-          <strong>{location}</strong>
-        </div>
+    <div className="job-card animate-fade-in">
+      {/* Header */}
+      <div className="job-card-header">
+        <span className="job-id">{id}</span>
+        <span className="job-location">
+          {location}
+        </span>
       </div>
 
-      <hr />
+      {/* Divider */}
+      <hr className="border-gray-100 my-3" />
 
-      <p>
-        <strong>{title}</strong>
-      </p>
-      <strong
-        style={{
-          border: "1px solid gray",
-          borderRadius: "4px",
-          backgroundColor: "gray",
-          display: "inline-block",
-          padding: "0 4px",
-        }}
-      >
-        {department}
-      </strong>
+      {/* Content */}
+      <h3 className="job-title">{title}</h3>
+      <span className="job-department">{department}</span>
 
-      <hr />
-
-      <div style={{ display: "flex" }}>
-        <strong style={{ marginTop: "10px" }}>{salary}</strong>
+      {/* Footer */}
+      <div className="job-footer">
+        <span className="job-salary">{salary}</span>
         <button
-          onClick={clickHandler}
-          style={{
-            borderRadius: "8px",
-            padding: "0.4em 1.2em",
-            fontSize: "1em",
-            fontWeight: 500,
-            fontFamily: "inherit",
-            marginLeft: "auto",
-            backdropFilter: "blur(10px)",
-            backgroundColor: "rgba(0, 0, 0, 1)",
-            color: "white",
-            border: "1px solid rgba(0, 0, 0, 0.4)",
+          onClick={handleApply}
+          disabled={isApplying || applied}
+          className={`btn ${applied ? 'btn-secondary' : 'btn-primary'}`}
+          style={{ 
+            opacity: isApplying ? 0.7 : 1,
+            cursor: applied ? 'default' : 'pointer'
           }}
         >
-          Apply
+          {isApplying ? (
+            <>
+              Applying...
+            </>
+          ) : applied ? (
+            <>Applied</>
+          ) : (
+            <>Apply Now</>
+          )}
         </button>
       </div>
     </div>

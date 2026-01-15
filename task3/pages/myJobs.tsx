@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Job from "./Job";
 import Sidebar from "./sidebar";
-import noJobImg from "../src/assets/image/nojob.png";
+import { jobsApi, type Job as JobType } from "../src/services/api";
 import { motion } from "motion/react";
 
-const jobs = [
+// Fallback jobs data
+const fallbackJobs: JobType[] = [
   { id: 1, title: "Software Engineer", department: "IT", location: "Johannesburg", salary: "R45,000/m" },
   { id: 2, title: "Data Analyst", department: "Business Intelligence", location: "Cape Town", salary: "R35,000/m" },
   { id: 3, title: "Project Manager", department: "Operations", location: "Pretoria", salary: "R50,000/m" },
@@ -29,81 +30,162 @@ const jobs = [
   { id: 22, title: "Risk Manager", department: "Compliance", location: "Bloemfontein", salary: "R52,000/m" },
   { id: 23, title: "Data Engineer", department: "Business Intelligence", location: "Johannesburg", salary: "R60,000/m" },
   { id: 24, title: "Public Relations Officer", department: "Communications", location: "Pretoria", salary: "R37,000/m" },
-  { id: 25, title: "IT Security Specialist", department: "IT", location: "Polokwane", salary: "R53,000/m" },
+  { id: 25, title: "IT Security Specialist", department: "IT", location: "Polokwane", salary: "R53,000/m" }
 ];
 
 export default function MyJobs() {
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
+  const [filteredJobs, setFilteredJobs] = useState<JobType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [userDetails, setUserDetails] = useState<{ department: string; city: string } | null>(null);
 
-  const details = localStorage.getItem("cv");
-  if (!details) return null;
-
-  const det = JSON.parse(details);
-  const depart = det.department;
-  const location = det.address;
-  const city = location.trim().split(" ").slice(-1)[0]; // get last word (city)
-
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
-    const results = jobs.filter(
-      (job) =>
-        job.department.toLowerCase() === depart.trim().toLowerCase() ||
-        job.location.toLowerCase() === city.toLowerCase()
-    );
+    const fetchJobs = async () => {
+      setIsLoading(true);
+      
+      // Get user details
+      const details = localStorage.getItem("cv");
+      if (!details) {
+        setIsLoading(false);
+        return;
+      }
 
-    setFilteredJobs(results);
-  }, [depart, city]);
+      const det = JSON.parse(details);
+      const depart = det.department;
+      const location = det.address;
+      const city = location.trim().split(" ").slice(-1)[0];
+      
+      setUserDetails({ department: depart, city });
+
+      try {
+        // Fetch all jobs from API
+        let jobs = await jobsApi.getAll();
+        if (jobs.length === 0) {
+          jobs = fallbackJobs;
+        }
+
+        // Filter jobs based on user's department or location
+        const results = jobs.filter(
+          (job) =>
+            job.department.toLowerCase() === depart.trim().toLowerCase() ||
+            job.location.toLowerCase() === city.toLowerCase()
+        );
+
+        setFilteredJobs(results);
+      } catch (error) {
+        // Use fallback and filter
+        const results = fallbackJobs.filter(
+          (job) =>
+            job.department.toLowerCase() === depart.trim().toLowerCase() ||
+            job.location.toLowerCase() === city.toLowerCase()
+        );
+        setFilteredJobs(results);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
+
+  // Check if user has uploaded details
+  const details = localStorage.getItem("cv");
+  if (!details) {
+    return (
+      <div className="page-container">
+        <Sidebar />
+        <main className="main-content">
+          <div className="empty-state">
+            <div className="text-6xl mb-4"></div>
+            <h3>Complete Your Profile First</h3>
+            <p className="mb-4">Upload your details to see personalized job recommendations</p>
+            <a href="/addDetails" className="btn btn-primary">
+              Upload Details
+            </a>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white w-auto">
-        <div className="fixed top-0 left-0 h-screen w-75 bg-black text-white p-5 hidden md:flex flex-col border-r border-black">
-          <Sidebar />
+    <div className="page-container">
+      <Sidebar />
+      
+      <main className="main-content">
+        {/* Page Header */}
+        <div className="page-header">
+          <h1 className="page-title">Recommended Jobs</h1>
+          <p className="text-gray-500">
+            Jobs matching your profile
+            {userDetails && (
+              <span className="ml-2">
+                • <span className="font-medium text-blue-600">{userDetails.department}</span> department 
+                or in <span className="font-medium text-blue-600">{userDetails.city}</span>
+              </span>
+            )}
+          </p>
         </div>
-    
-        <div className="md:ml-100 p-10 md:p-10">
-          <h1 className="text-2xl font-bold text-center mb-6 text-gray-900">
-            Available Jobs
-          </h1>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "10px",
-          }}
-        >
-          {filteredJobs.length > 0 ? (
-            filteredJobs.map((job) => (
-              <Job
-                key={job.id}
-                id={job.id}
-                title={job.title}
-                department={job.department}
-                location={job.location}
-                salary={job.salary}
-              />
-            ))
-          ) : (
-            <div className="flex items-center justify-center col-span-4 py-10">
-              <motion.div
-                animate={{
-                  x: [-20, 20, -20],
-                  rotate: [-10, 10, -10],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-                className="origin-top"
-              >
-                <img src={noJobImg} alt="no jobs" className="w-150" />
-              </motion.div>
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="empty-state">
+            <div className="text-4xl mb-4">Loading...</div>
+            <h3>Finding your perfect match...</h3>
+            <p>We're searching for jobs that match your profile</p>
+          </div>
+        ) : filteredJobs.length > 0 ? (
+          <>
+            {/* Results Count */}
+            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+              <p className="text-blue-800">
+                We found <strong>{filteredJobs.length}</strong> jobs that match your profile!
+              </p>
             </div>
-          )}
-        </div>
-      </div>
+
+            <div className="jobs-grid">
+              {filteredJobs.map((job, index) => (
+                <motion.div
+                  key={job.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <Job
+                    id={job.id}
+                    title={job.title}
+                    department={job.department}
+                    location={job.location}
+                    salary={job.salary}
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <motion.div
+              animate={{
+                y: [-10, 10, -10],
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <div className="text-2xl mb-4">No Results</div>
+            </motion.div>
+            <h3>No matching jobs found</h3>
+            <p className="mb-4">
+              We couldn't find jobs matching your {userDetails?.department} department 
+              or in {userDetails?.city}
+            </p>
+            <a href="/jobs" className="btn btn-primary">
+              Browse All Jobs
+            </a>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
